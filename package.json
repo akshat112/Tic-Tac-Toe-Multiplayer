@@ -1,0 +1,30 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "A web based multiplayer tic-tac-toe game using Sockets",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshat112/Tic-Tac-Toe-Multiplayer.git"
+  },
+  "keywords": [
+    "tic",
+    "tac",
+    "toe",
+    "tic",
+    "tac",
+    "toe",
+    "multiplayer",
+    "zero",
+    "cross"
+  ],
+  "author": "Akshat Bhanchawat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akshat112/Tic-Tac-Toe-Multiplayer/issues"
+  },
+  "homepage": "https://github.com/akshat112/Tic-Tac-Toe-Multiplayer#readme"
+}
