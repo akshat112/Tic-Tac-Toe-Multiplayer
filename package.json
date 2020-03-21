@@ -4,7 +4,8 @@
   "description": "A web based multiplayer tic-tac-toe game using Sockets",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,12 @@
   "bugs": {
     "url": "https://github.com/akshat112/Tic-Tac-Toe-Multiplayer/issues"
   },
-  "homepage": "https://github.com/akshat112/Tic-Tac-Toe-Multiplayer#readme"
+  "homepage": "https://github.com/akshat112/Tic-Tac-Toe-Multiplayer#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }

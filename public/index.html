@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        td {
+            width: 100px;
+            height: 100px;
+        }
+        table {
+            margin: 5px auto;
+        }
+        .vert {
+            border-left: 2px solid black;
+            border-right: 2px solid black;
+        }
+        .hori {
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2 class="text-center mb-5">TIC TAC TOE GAME</h2>
+                <table id="game">
+                    <tr>
+                      <td id="a1"><img src="o.png" height="90" width="90" alt=""></td>
+                      <td class="vert" id="a2"></td>
+                      <td id="a3"></td>
+                    </tr>
+                    <tr>
+                      <td class="hori" id="b1"></td>
+                      <td class="vert hori" id="b2"><img src="x.png" height="90" width="90" alt=""></td>
+                      <td class="hori" id="b3"></td>
+                    </tr>
+                    <tr>
+                      <td id="c1"></td>
+                      <td class="vert" id="c2"></td>
+                      <td id="c3"></td>
+                    </tr>
+                  </table>
+
+            </div>
+            <div class="col-md-3 text-center mt-3">
+                <h3>Game options</h3>
+                <div class="card initial-controls p-5">
+                    <button class="btn btn-success" id="start-game" data-toggle="modal" data-target="#startGameModal">Start new game</button> <br>
+                    <button class="btn btn-primary" id="join-game">Join a player</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Start a game modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="startGameModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Start new game</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center">
+              <p>Share your game code with other player:</p> <br>
+              <div class="row">
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" id="myGameCode">
+                  </div>
+                  <div class="col-md-3">
+                    <button class="btn btn-primary" onclick="copyMyCode()">Copy</button>
+                  </div>
+              </div> <br>
+              <p>Waiting for other player to join...</p>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+          </div>
+        </div>
+      </div><!--Start a game modal end-->
+
+
+
+    <!-- Join a game modal -->
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div><!--Join a game modal end-->
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
