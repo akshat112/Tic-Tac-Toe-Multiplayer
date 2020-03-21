@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://172.20.10.8:3000');
 
 function el(id){
     return document.getElementById(id);
@@ -11,16 +11,13 @@ var startBtn = el("start-game"),
     hostName = el('hostName'),
     joineeName = el('joineeName'),
     otherGameCode = el('otherGameCode'),
-    joinPlay = el('joinPlay'),
-    a1 = el('a1'),
-    a2 = el('a2'),
-    a3 = el('a3'),
-    b1 = el('b1'),
-    b2 = el('b2'),
-    b3 = el('b3'),
-    c1 = el('c1'),  
-    c2 = el('c2'),
-    c3 = el('c3');
+    joinPlay = el('joinPlay'); 
+
+// Initializers
+el('overlayMessage').innerHTML="Start or join a game";
+socket.on('conSuccess', (id) => {
+    localStorage.setItem("myId", id);
+})
 
 // Event Listeners
 
@@ -56,6 +53,22 @@ function copyMyCode(){
 }
 
 
+document.querySelectorAll('td').forEach(item => {
+    item.addEventListener('click', event => {
+      console.log(event.target.id)
+    //   el(event.target.id).style.backgroundImage='url("x.png")';
+      data = {
+          block: event.target.id,
+          jid: localStorage.getItem('joineeId'),
+          hostId: localStorage.getItem('hostId'),
+          playedBy: localStorage.getItem('myId')
+      }
+      console.log(data.playedBy)
+      socket.emit('move', data)
+    })
+  })
+
+
 // Socket functions
 
 function hostStarted(inp){
@@ -73,20 +86,42 @@ function joineeStarted(){
     let data = {
         name: joineeName.value,
         sid: socket.id,
-        hostId: otherGameCode.value
+        hostId: otherGameCode.value,
+        jid: socket.id
     }
+    localStorage.setItem('hostId', otherGameCode.value);
+    localStorage.setItem('joineeId', socket.id)
     console.log(data)
     socket.emit('joineeStarted', data)
 }
 
 
+
+function chanceOf(data){
+    socket.emit('chance', data)
+}
+
+
 // Socket direct
+
+socket.on('chance', (data) => {
+    if(localStorage.getItem('myId')==data.sid){
+        console.log(data)
+        el('othersChance').style.display="none";
+    } else{
+        console.log(data)
+        el('othersChance').style.display="block";
+        el('othersChance').innerHTML="Other player's chance";
+    }
+})
 
 socket.on('joineeStarted', (data) => {
     el('playingWith').innerHTML += data.name;
     $('#startGameModal').modal('hide')
     el('initial-controls').classList.add('d-none')
     el('playing').classList.remove('d-none')
+    localStorage.setItem("hostId", localStorage.getItem("myId"))
+    localStorage.setItem("joineeId", data.jid)
     hostStarted(data)
 })
 
@@ -95,4 +130,32 @@ socket.on('hostData', (data) => {
     $('#joinGameModal').modal('hide')
     el('initial-controls').classList.add('d-none')
     el('playing').classList.remove('d-none')
+    chanceOf(data)
+})
+
+socket.on('move', (data) => {
+    if(data.playedBy == localStorage.getItem('hostId')){
+        el(data.block).style.backgroundImage='url("x.png")';
+        socket.emit('hostPlayed', data)
+    } else{
+        el(data.block).style.backgroundImage='url("o.png")';
+        socket.emit('joineePlayed', data)
+    }
+})
+
+socket.on('hostPlayed', (data) => {
+    if(data == 'ready'){
+        el('othersChance').style.display="none";
+    } else{
+        el('othersChance').style.display="block";
+        el('othersChance').innerHTML="Other player's chance";
+    }
+})
+socket.on('joineePlayed', (data) => {
+    if(data == 'ready'){
+        el('othersChance').style.display="none";
+    } else{
+        el('othersChance').style.display="block";
+        el('othersChance').innerHTML="Other player's chance";
+    }
 })
