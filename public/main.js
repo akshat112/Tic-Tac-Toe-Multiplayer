@@ -144,21 +144,21 @@ socket.on('won', data => {
     if(data.wonBy=='due'){
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="Match draw <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="Match draw <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='endGame()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
     }
     else if(data.wonBy=='x' && localStorage.getItem('myId')==data.hostId){
         console.log("MMMMMMMMMMMMM")
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='endGame()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     } else if(data.wonBy=='o' && localStorage.getItem('myId')==data.jid){
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='endGame()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     } else{
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="Other player won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="Other player won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='endGame()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     }
 
 
@@ -289,4 +289,8 @@ function reset(){
     if(el('othersChance').style.display!='none'){
         el('othersChance').style.display='none';
     }
+}
+
+function endGame(){
+    window.localStorage.href=window.location.protocol + "//" + window.location.host;
 }
