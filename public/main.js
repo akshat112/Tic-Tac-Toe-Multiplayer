@@ -32,7 +32,7 @@ socket.on('conSuccess', (id) => {
 
 startBtn.addEventListener('click', (event) => {
     myGameCode.value = socket.id;
-    el('myGameUrl').value=window.location.href + "?gameId=" + socket.id;
+    el('myGameUrl').value=window.location.protocol + "//" + window.location.host + "?gameId=" + socket.id;
 })
 
 startPlay.addEventListener('click', () => {
@@ -51,6 +51,16 @@ startPlay.addEventListener('click', () => {
 })
 
 joinPlay.addEventListener('click', () => {
+    if(joineeName.value == ''){
+        joineeName.classList.add("is-invalid")
+        return;
+    }
+    else if(joineeName.classList.contains('is-invalid')){
+        joineeName.classList.remove('is-invalid')
+        joineeName.classList.add('is-valid')
+    } else{
+        joineeName.classList.add('is-valid')
+    }
     joineeStarted(socket)
 })
 
@@ -140,15 +150,15 @@ socket.on('won', data => {
         console.log("MMMMMMMMMMMMM")
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     } else if(data.wonBy=='o' && localStorage.getItem('myId')==data.jid){
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     } else{
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="Other player won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="Other player won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 20px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     }
 
 
@@ -173,7 +183,7 @@ socket.on('chance', (data) => {
 })
 
 socket.on('joineeStarted', (data) => {
-    el('playingWith').innerHTML += data.name + " <br> You are <b>X</b>";
+    el('playingWith').innerHTML += data.name + " <br> You are playing: <b>X</b>";
     $('#startGameModal').modal('hide')
     el('initial-controls').classList.add('d-none')
     el('playing').classList.remove('d-none')
@@ -183,7 +193,7 @@ socket.on('joineeStarted', (data) => {
 })
 
 socket.on('hostData', (data) => {
-    el('playingWith').innerHTML += data.name + " <br> You are <b>O</b>";
+    el('playingWith').innerHTML += data.name + " <br> You are playing: <b>O</b>";
     $('#joinGameModal').modal('hide')
     el('initial-controls').classList.add('d-none')
     el('playing').classList.remove('d-none')
