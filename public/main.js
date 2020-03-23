@@ -292,5 +292,5 @@ function reset(){
 }
 
 function endGame(){
-    window.localStorage.href=window.location.protocol + "//" + window.location.host;
+    window.location.href=window.location.protocol + "//" + window.location.host;
 }
