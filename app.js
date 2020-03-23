@@ -51,4 +51,7 @@ io.on('connection', function(socket){
     socket.on('reset', (data) => {
         io.to(data.hostId).to(data.jid).emit('reset','reset')
     })
+    socket.on('end', (data) => {
+        io.to(data.hostId).to(data.jid).emit('end','end')
+    })
 })

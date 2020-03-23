@@ -252,6 +252,10 @@ socket.on('joineePlayed', (data) => {
     }
 })
 
+socket.on('end', data => {
+    window.location.href=window.location.protocol + "//" + window.location.host;
+})
+
 
 //Misc
 
@@ -292,5 +296,10 @@ function reset(){
 }
 
 function endGame(){
-    window.location.href=window.location.protocol + "//" + window.location.host;
+    // window.location.href=window.location.protocol + "//" + window.location.host;
+    data = {
+        hostId: localStorage.getItem('hostId'),
+        jid: localStorage.getItem('joineeId')
+    }
+    socket.emit('end', data)
 }
