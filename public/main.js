@@ -1,5 +1,5 @@
-// var socket = io.connect('https://tttonline.herokuapp.com');
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('https://tttonline.herokuapp.com');
+// var socket = io.connect('http://localhost:3000');
 
 function el(id){
     return document.getElementById(id);
