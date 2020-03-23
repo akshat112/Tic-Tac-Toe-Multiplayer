@@ -7,8 +7,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
         body{
-            background-image: url('/bg.jpg');
+            background-image: url('/bg2.jpg');
             background-size: cover;
+
         }
         td {
             width: 125px;
@@ -43,6 +44,9 @@
             top: 0px;
             right: 0;
         }
+        .othersChance>p{
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -70,21 +74,24 @@
                     <div class="othersChance" id="othersChance">
                         <p id="overlayMessage"></p>
                     </div>
+                    <div class="othersChance d-none" id="gameWon">
+                        <p id="overlayMessageWon"></p>
+                    </div>
                     <table id="game">
                         <tr>
-                            <td id="a1"></td>
-                            <td class="vert" id="a2"></td>
-                            <td id="a3"></td>
+                            <td id="a1" data-val="0"></td>
+                            <td class="vert" id="a2" data-val="0"></td>
+                            <td id="a3" data-val="0"></td>
                         </tr>
                         <tr>
-                            <td class="hori" id="b1"></td>
-                            <td class="vert hori" id="b2"></td>
-                            <td class="hori" id="b3"></td>
+                            <td class="hori" id="b1" data-val="0"></td>
+                            <td class="vert hori" id="b2" data-val="0"></td>
+                            <td class="hori" id="b3" data-val="0"></td>
                         </tr>
                         <tr>
-                            <td id="c1"></td>
-                            <td class="vert" id="c2"></td>
-                            <td id="c3"></td>
+                            <td id="c1" data-val="0"></td>
+                            <td class="vert" id="c2" data-val="0"></td>
+                            <td id="c3" data-val="0"></td>
                         </tr>
                     </table>
                 </div>
@@ -126,10 +133,24 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <button class="btn btn-primary" onclick="copyMyCode()">Copy</button>
+                    <button class="btn btn-primary" onclick="copyMyCode('myGameCode')">Copy</button>
+                  </div>
+              </div>
+              <div class="row mb-2">
+                  <div class="col-md-9">
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Share URL: </div>
+                        </div>
+                        <input type="text" class="form-control" id="myGameUrl" data-toggle="tooltip" data-placement="top" title="Copied">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <button class="btn btn-primary" onclick="copyMyCode('myGameUrl')">Copy</button>
                   </div>
               </div> <br>
-              <p>Copy and share your game code with other player</p> <br>
+              <p>Copy and share your game code or link with other player</p> <br>
               <button class="btn btn-block btn-success" id="startPlay">Start</button>
             </div>
             <!-- <div class="modal-footer">
@@ -161,7 +182,7 @@
                   </div>
               <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Enter code: </div>
+                    <div class="input-group-text">Game code: </div>
                 </div>
                 <input type="text" id="otherGameCode" class="form-control">
               </div>

@@ -44,4 +44,11 @@ io.on('connection', function(socket){
         io.to(data.hostId).emit('joineePlayed', 'ready')
         io.to(data.jid).emit('joineePlayed', 'notReady')
     })
+    socket.on('won', (data) => {
+        console.log(data)
+        io.to(data.hostId).to(data.jid).emit('won',data)
+    })
+    socket.on('reset', (data) => {
+        io.to(data.hostId).to(data.jid).emit('reset','reset')
+    })
 })
