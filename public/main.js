@@ -175,6 +175,7 @@ socket.on('chance', (data) => {
     if(localStorage.getItem('myId')==data.sid){
         console.log(data)
         el('othersChance').style.display="none";
+        el('yourChance').classList.remove('d-none')
     } else{
         console.log(data)
         el('othersChance').style.display="block";
@@ -270,7 +271,7 @@ function checkWin(player){
     dataValues.push(item.dataset.val)
    })
    dvs = dataValues.toString().replace(/\,/g,'')
-   if(!dvs.includes('0')){
+   if(!dvs.includes('0') && !xWins.test(dvs) && !xWins.test(dvs)){
         data1.wonBy = 'due';
         data1.jid = localStorage.getItem('joineeId')
         data1.hostId = localStorage.getItem('hostId')
