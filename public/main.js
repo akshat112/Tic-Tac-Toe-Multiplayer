@@ -180,6 +180,8 @@ socket.on('chance', (data) => {
         console.log(data)
         el('othersChance').style.display="block";
         el('othersChance').innerHTML="Other player's chance";
+        el('yourChance').classList.add('d-none')
+        console.log("Hereee")
     }
 })
 
@@ -233,10 +235,12 @@ socket.on('hostPlayed', (data) => {
     }
     else if(data == 'ready'){
         el('othersChance').style.display="none";
+        el('yourChance').classList.remove('d-none')
     }
     else{
         el('othersChance').style.display="block";
         el('overlayMessage').innerHTML="Other player's chance";
+        el('yourChance').classList.add('d-none')
     }
 })
 socket.on('joineePlayed', (data) => {
@@ -247,9 +251,11 @@ socket.on('joineePlayed', (data) => {
         socket.emit('won', data1)
     }else if(data == 'ready'){
         el('othersChance').style.display="none";
+        el('yourChance').classList.remove('d-none')
     } else{
         el('othersChance').style.display="block";
         el('overlayMessage').innerHTML="<span>Other player's chance</span>";
+        el('yourChance').classList.add('d-none')
     }
 })
 
