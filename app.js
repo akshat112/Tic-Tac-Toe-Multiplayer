@@ -54,4 +54,24 @@ io.on('connection', function(socket){
     socket.on('end', (data) => {
         io.to(data.hostId).to(data.jid).emit('end','end')
     })
+
+    socket.on('checkAvailable', (data) => {
+        if(io.sockets.server.eio.clients[data] !== undefined){
+            data = {
+                status: 'available',
+                gc: data
+            }
+            socket.emit('checkAvailable', data)
+        } else{
+            data = {
+                status: 'notavailable',
+                gc: data
+            }
+            socket.emit('checkAvailable', data)
+        }
+    })
+
+    socket.on('someoneLeft', data => {
+        socket.to(data.otherId).emit('someoneLeft', 'left');
+    })
 })

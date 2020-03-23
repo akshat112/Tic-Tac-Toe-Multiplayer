@@ -1,5 +1,5 @@
-var socket = io.connect('https://tttonline.herokuapp.com');
-// var socket = io.connect('http://localhost:3000');
+// var socket = io.connect('https://tttonline.herokuapp.com');
+var socket = io.connect('http://localhost:3000');
 
 function el(id){
     return document.getElementById(id);
@@ -7,9 +7,7 @@ function el(id){
 
 if(window.location.href.includes("gameId=")){
     var gameCode = window.location.href.split("gameId=")[1];
-    $('#joinGameModal').modal('show');
-    el('otherGameCode').value = gameCode;
-    el('otherGameCode').disabled="true"
+    socket.emit('checkAvailable',gameCode);
 }
 
 
@@ -27,6 +25,19 @@ el('overlayMessage').innerHTML="Start or join a game";
 socket.on('conSuccess', (id) => {
     localStorage.setItem("myId", id);
 })
+
+socket.on('checkAvailable', (data => {
+    console.log("GHHHHHHHH")
+    if(data.status == 'available'){
+        $('#joinGameModal').modal('show');
+        el('otherGameCode').value = data.gc;
+        el('otherGameCode').disabled="true"
+    } else if(data.status == 'notavailable'){
+        alert("Other player has left the game")
+        window.location.href=window.location.protocol + "//" + window.location.host;
+    }
+}))
+
 
 // Event Listeners
 
@@ -59,6 +70,7 @@ joinPlay.addEventListener('click', () => {
         joineeName.classList.remove('is-invalid')
         joineeName.classList.add('is-valid')
     } else{
+        socket.emit('checkAvailable',otherGameCode.value);
         joineeName.classList.add('is-valid')
     }
     joineeStarted(socket)
@@ -144,7 +156,7 @@ socket.on('won', data => {
     if(data.wonBy=='due'){
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="Match draw <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='endGame()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="Match draw <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='endGame()'>End Game</button><br><br><p style='font-size: 15px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     }
     else if(data.wonBy=='x' && localStorage.getItem('myId')==data.hostId){
         console.log("MMMMMMMMMMMMM")
@@ -264,6 +276,11 @@ socket.on('end', data => {
     window.location.href=window.location.protocol + "//" + window.location.host;
 })
 
+socket.on('someoneLeft', (data) => {
+    el('othersChance').style.display="none";
+    el('gameWon').classList.remove('d-none')
+    el('gameWon').innerHTML="Other player left the game <br><br><button class='btn btn-md btn-danger' onclick='endGame()'>End Game</button>";
+})
 
 //Misc
 
@@ -311,3 +328,18 @@ function endGame(){
     }
     socket.emit('end', data)
 }
+
+window.onbeforeunload = function(){
+    if(localStorage.getItem('myId')==localStorage.getItem('hostId')){
+        data = {
+            myId: localStorage.getItem('myId'),
+            otherId: localStorage.getItem('joineeId')
+        }
+    } else{
+        data = {
+            myId: localStorage.getItem('myId'),
+            otherId: localStorage.getItem('hostId')
+        }
+    }
+    socket.emit('someoneLeft',data);
+ }
