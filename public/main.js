@@ -131,22 +131,24 @@ socket.on('reset', (data) => {
 })
 
 socket.on('won', data => {
-    console.log("================")
-    console.log(data)
-    console.log("================")
-    if(data.wonBy=='x' && localStorage.getItem('myId')==data.hostId){
+    if(data.wonBy=='due'){
+        el('othersChance').style.display="none";
+        el('gameWon').classList.remove('d-none')
+        el('gameWon').innerHTML="Match draw <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
+    }
+    else if(data.wonBy=='x' && localStorage.getItem('myId')==data.hostId){
         console.log("MMMMMMMMMMMMM")
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><br><p>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
     } else if(data.wonBy=='o' && localStorage.getItem('myId')==data.jid){
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><br><p>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="You won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:100;'>After restart, any of the player can take the first chance</p>";
     } else{
         el('othersChance').style.display="none";
         el('gameWon').classList.remove('d-none')
-        el('gameWon').innerHTML="Other player won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><br><p>After restart, any of the player can take the first chance</p>";
+        el('gameWon').innerHTML="Other player won <br> <button class='btn btn-md btn-success' onclick='restart()'>⟳ Re-start</button> <br><button class='btn btn-md btn-danger' onclick='window.location.reload()'>End Game</button><br><br><p style='font-size: 15px;font-weight:700;'>After restart, any of the player can take the first chance</p>";
     }
 
 
@@ -171,7 +173,7 @@ socket.on('chance', (data) => {
 })
 
 socket.on('joineeStarted', (data) => {
-    el('playingWith').innerHTML += data.name;
+    el('playingWith').innerHTML += data.name + " <br> You are <b>X</b>";
     $('#startGameModal').modal('hide')
     el('initial-controls').classList.add('d-none')
     el('playing').classList.remove('d-none')
@@ -181,7 +183,7 @@ socket.on('joineeStarted', (data) => {
 })
 
 socket.on('hostData', (data) => {
-    el('playingWith').innerHTML += data.name;
+    el('playingWith').innerHTML += data.name + " <br> You are <b>O</b>";
     $('#joinGameModal').modal('hide')
     el('initial-controls').classList.add('d-none')
     el('playing').classList.remove('d-none')
@@ -212,7 +214,7 @@ socket.on('move', (data) => {
 
 socket.on('hostPlayed', (data) => {
     data1 = {}
-    if(checkWin('x')){
+    if(checkWin('x')==true){
         data1.wonBy = 'x';
         data1.jid = localStorage.getItem('joineeId')
         data1.hostId = localStorage.getItem('hostId')
@@ -227,7 +229,7 @@ socket.on('hostPlayed', (data) => {
     }
 })
 socket.on('joineePlayed', (data) => {
-    if(checkWin('o')){
+    if(checkWin('o')==true){
         data1.wonBy = 'o';
         data1.jid = localStorage.getItem('joineeId')
         data1.hostId = localStorage.getItem('hostId')
@@ -254,6 +256,13 @@ function checkWin(player){
     dataValues.push(item.dataset.val)
    })
    dvs = dataValues.toString().replace(/\,/g,'')
+   if(!dvs.includes('0')){
+        data1.wonBy = 'due';
+        data1.jid = localStorage.getItem('joineeId')
+        data1.hostId = localStorage.getItem('hostId')
+        socket.emit('won', data1)
+        return false;
+   }
    if(player=='x'){
        return xWins.test(dvs)
    }else if(player=='o'){
