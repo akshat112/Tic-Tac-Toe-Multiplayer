@@ -1,4 +1,5 @@
-var socket = io.connect('https://tttonline.herokuapp.com');
+var socket = io.connect('tictactoe-6bwp.onrender.com');
+console.log(process.ENV.URL)
 // var socket = io.connect('http://localhost:3000');
 
 function el(id){
