@@ -1,6 +1,7 @@
 var socket = io.connect('https://tictactoe-6bwp.onrender.com');
-console.log(process.ENV.URL)
+//console.log(process.ENV.URL)
 // var socket = io.connect('http://localhost:3000');
+console.log(socket.id)
 
 function el(id){
     return document.getElementById(id);
